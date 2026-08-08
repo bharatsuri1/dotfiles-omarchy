@@ -1,0 +1,21 @@
+# Never track credentials or private keys
+*.key
+*.pem
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example
+
+# Application state and generated databases
+*.db
+*.sqlite*
+*.jsonlz4
+*.log
+
+# Zen profile secrets/state
+.config/zen/**/cookies*
+.config/zen/**/logins*
+.config/zen/**/key4.db
+.config/zen/**/cert9.db
+.config/zen/**/sessionstore*
