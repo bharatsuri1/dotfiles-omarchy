@@ -1,0 +1,7 @@
+interface:
+  display_name: "Maintain Omarchy Dotfiles"
+  short_description: "Audit, sync, validate, and restore Omarchy dotfiles"
+  default_prompt: "Use $maintain-omarchy-dotfiles to audit and safely update this Omarchy dotfiles repository."
+
+policy:
+  allow_implicit_invocation: false
