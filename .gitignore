@@ -19,3 +19,6 @@
 .config/zen/**/key4.db
 .config/zen/**/cert9.db
 .config/zen/**/sessionstore*
+
+# Zsh plugins are installed from their upstream repositories during restore
+.config/zsh/plugins/
