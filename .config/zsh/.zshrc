@@ -30,3 +30,4 @@ source "$ZDOTDIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugi
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
