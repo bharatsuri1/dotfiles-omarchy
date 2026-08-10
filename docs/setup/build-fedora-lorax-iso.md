@@ -261,6 +261,16 @@ Acceptance requires:
 - NetworkManager exposes a Wi-Fi interface;
 - scanning, authentication, DHCP, DNS, and HTTPS work.
 
+### Tested result on the target laptop
+
+On 2026-08-09, the first successful custom ISO was booted on the target Dell
+Intel laptop. Anaconda exposed the Wi-Fi interface and successfully connected
+to a wireless network during installation. This is the real-hardware
+acceptance result that the earlier stock Fedora and other installer images had
+failed to achieve. It confirms this ISO's updated kernel and firmware runtime
+is sufficient for installer-stage Wi-Fi on this machine; it does not establish
+compatibility with other hardware.
+
 Ethernet remains available for the Everything package source. The Lorax `boot.iso` supplies the installer runtime; Anaconda may still require selecting or entering the official Fedora Everything network repository as its installation source.
 
 ## Trust boundary

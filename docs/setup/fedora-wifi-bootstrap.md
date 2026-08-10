@@ -6,6 +6,15 @@ This is the first gate for the Fedora Server + niri + DMS installation on the cu
 
 The laptop uses Intel Wi-Fi PCI ID `8086:4d40` and working firmware named `iwlwifi-bz-b0-wh-b0-c102.ucode`. Fedora 44's release installer predates that exact firmware addition. Current Fedora 44 repositories do contain it, but the boot image may not.
 
+The custom Fedora 44 Lorax ISO documented in
+[Build an updated Fedora 44 installer with Lorax](build-fedora-lorax-iso.md)
+passed its installer-stage hardware test on 2026-08-09: it booted on this
+laptop, exposed Wi-Fi in Anaconda, and connected successfully. The stock-image
+failure is therefore resolved for this specific custom ISO. Post-install Wi-Fi
+validation below remains required because it tests the installed kernel,
+firmware, NetworkManager, reconnection, and normal boot environment rather than
+only the live installer runtime.
+
 Use the Fedora Everything network installer with tested Ethernet. Everything exposes Fedora's package environments without forcing a desktop, and its network source lets the target system receive current kernel and firmware packages during installation.
 
 ## 1. Download and authenticate Fedora Everything
