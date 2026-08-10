@@ -112,4 +112,3 @@ Finally test hardware decoding in Zen or mpv while observing GPU activity. `vain
 - [Intel oneVPL GPU runtime](https://github.com/intel/vpl-gpu-rt)
 - [Fedora oneVPL runtime package](https://packages.fedoraproject.org/pkgs/intel-vpl-gpu-rt/intel-vpl-gpu-rt/)
 - [Fedora libvpl implementation guidance](https://packages.fedoraproject.org/pkgs/libvpl/libvpl/)
-

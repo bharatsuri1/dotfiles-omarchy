@@ -2,7 +2,7 @@
 
 Personal changes layered on top of the default Omarchy setup.
 
-The repository is also being used to design a minimal Linux development-machine setup independent of Omarchy. See the [setup directions](docs/README.md) and [decision ledger](docs/decisions.md). Commands are intentionally deferred until the remaining foundation choices are settled.
+The repository is also being used to design a minimal Linux development-machine setup independent of Omarchy. See the [setup directions](docs/README.md), [first-install guides](docs/setup/README.md), and [decision ledger](docs/decisions.md).
 
 ## Included
 

@@ -24,14 +24,20 @@ Each guide will compose four layers instead of duplicating a monolithic install:
 
 No setup commands should imply an undecided component. Decisions are tracked in [decisions.md](decisions.md).
 
+The first executable guides are indexed in [setup/README.md](setup/README.md):
+
+- [Arch + niri](setup/arch-niri.md)
+- [Arch + niri + DMS](setup/arch-niri-dms.md)
+- [Fedora Server + niri + DMS](setup/fedora-niri-dms.md)
+
 ## Remaining critical decisions
 
 Only components required to boot, connect, enter a graphical session, develop, update, and recover remain in scope:
 
-1. **Installation/bootstrap** — selected: official ISO paths for Arch, Fedora Server, and Fedora Workstation; exact installer validation steps remain to be written.
+1. **Installation/bootstrap** — selected and documented: official ISO paths for Arch, Fedora Server, and Fedora Workstation, with an exact-media hardware and network acceptance gate.
 2. **Disk and boot** — selected: Btrfs, automatic whole-disk unencrypted partitioning, profile-specific bootloaders, and zram-only swap without hibernation.
-3. **Hardware foundation** — standard kernels, Intel microcode, firmware, Intel graphics, libinput, and keyd selected; installer Wi-Fi compatibility and Wildcat Lake media acceleration are mandatory investigations.
-4. **Networking** — selected: NetworkManager as the single persistent network owner; ISO driver/firmware preflight remains.
+3. **Hardware foundation** — selected and documented: standard kernels, Intel microcode, firmware, Intel graphics, libinput, keyd, and an exact-ISO acceptance test for the current laptop.
+4. **Networking** — selected and documented: NetworkManager as the single persistent network owner, with `iwctl` used only to bootstrap the Arch ISO.
 5. **Desktop session** — selected: explicit `niri-session` from TTY for custom directions and GDM/GNOME for Workstation; no custom greeter or shell autostart.
 6. **niri and DMS** — selected and detailed: packaged DMS core only, accepting required dependencies while excluding visualizer, generated themes, indexed search, calendar, sound feedback, plugins, and other optional providers.
 7. **Xwayland** — selected: niri-managed on-demand `xwayland-satellite`, with native Wayland preferred and no Xorg session.
