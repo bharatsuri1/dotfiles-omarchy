@@ -5,11 +5,11 @@ repo_root=$(git rev-parse --show-toplevel)
 tmp_dir=$(mktemp -d)
 trap 'rm -rf "$tmp_dir"' EXIT
 
-pacman -Q | sort > "$tmp_dir/packages-all-with-versions.txt"
-pacman -Qqe | sort > "$tmp_dir/packages-explicit.txt"
-pacman -Qqen | sort > "$tmp_dir/packages-official-explicit.txt"
-pacman -Qqem | sort > "$tmp_dir/packages-foreign-explicit.txt"
-pacman -Qdt | sort > "$tmp_dir/packages-orphans-with-versions.txt"
+pacman -Q | LC_ALL=C sort > "$tmp_dir/packages-all-with-versions.txt"
+pacman -Qqe | LC_ALL=C sort > "$tmp_dir/packages-explicit.txt"
+pacman -Qqen | LC_ALL=C sort > "$tmp_dir/packages-official-explicit.txt"
+pacman -Qqem | LC_ALL=C sort > "$tmp_dir/packages-foreign-explicit.txt"
+pacman -Qdt | LC_ALL=C sort > "$tmp_dir/packages-orphans-with-versions.txt"
 
 combined_count=$(( $(wc -l < "$tmp_dir/packages-official-explicit.txt") + $(wc -l < "$tmp_dir/packages-foreign-explicit.txt") ))
 explicit_count=$(wc -l < "$tmp_dir/packages-explicit.txt")

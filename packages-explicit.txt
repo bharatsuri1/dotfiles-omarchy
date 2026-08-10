@@ -103,8 +103,8 @@ noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
 nss-mdns
-obsidian
 obs-studio
+obsidian
 omarchy-keyring
 omarchy-nvim
 omarchy-walker

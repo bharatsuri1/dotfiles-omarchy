@@ -2,6 +2,11 @@
 
 This documentation will grow into reproducible setup guides for one Dell Intel laptop. The directions are deliberately incremental so they can be used both to learn the Linux desktop stack and to reach a practical daily system.
 
+The running pre-Fedora Omarchy machine has a separate audited reference in
+[Current Omarchy host snapshot](current-omarchy-host.md). It records what is
+authored here, what Omarchy recreates upstream, and what must remain private or
+generated.
+
 ## Directions
 
 - **Arch base** — minimal bootable TTY system.
