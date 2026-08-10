@@ -53,6 +53,10 @@ while IFS= read -r repo_file; do
       live_file="$HOME/$repo_file"
       if [[ ! -f $live_file ]]; then
         fail "live mirror missing: $repo_file"
+      elif [[ $repo_file == .config/user-dirs.dirs ]] && diff -q \
+        <(sed 's/[[:space:]]*$//' "$repo_file") \
+        <(sed 's/[[:space:]]*$//' "$live_file") >/dev/null; then
+        : # xdg-user-dirs generated comment whitespace is non-semantic.
       elif ! cmp -s "$repo_file" "$live_file"; then
         fail "live mirror drift: $repo_file"
       fi

@@ -151,8 +151,11 @@ The repository mirrors every selected authored file relative to `$HOME`:
 - the Voxtype user unit; and
 - curated Zen preferences, shortcuts, theme metadata, and CSS.
 
-Every direct mirror matched the live host at capture time. The two Zsh plugin
-repositories are intentionally excluded and pinned in the main README.
+Every direct mirror matched the live host at capture time. The sole normalized
+difference is trailing whitespace on a generated comment in
+`user-dirs.dirs`; its settings are identical and the audit compares that file
+after stripping end-of-line whitespace. The two Zsh plugin repositories are
+intentionally excluded and pinned in the main README.
 
 ## Excluded state and secrets
 
