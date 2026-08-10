@@ -103,8 +103,8 @@ noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
 nss-mdns
-obs-studio
 obsidian
+obs-studio
 omarchy-keyring
 omarchy-nvim
 omarchy-walker
@@ -176,6 +176,7 @@ xmlstarlet
 xournalpp
 yaru-icon-theme
 yay
+yazi
 zoxide
 zram-generator
 zsh
