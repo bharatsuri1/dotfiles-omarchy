@@ -84,6 +84,8 @@ Before accepting any Arch or Fedora ISO for installation:
 
 The current installation proves a working reference point, not a universal minimum: Arch kernel `7.1.4-arch1-1` with `linux-firmware-intel` `20260622-1` identifies this device as Intel Wi-Fi 7 BE213 160 MHz and loads `iwlwifi-bz-b0-wh-b0-c102.ucode` API 102. Upstream history does not provide enough evidence to claim an older safe minimum for this exact pre-release-generation PCI ID. Therefore the live-ISO functional preflight remains the acceptance test. Prior Fedora and other installer ISOs failed to provide working Wi-Fi on this laptop.
 
+For the August 2026 Fedora installation, use the full Fedora Server 44 DVD rather than its network-install ISO. The 44 release image predates the upstream addition of the exact Bz/Wh `c102` firmware, while current Fedora 44 updates carry newer `iwlwifi-mld-firmware`. A tested USB-tether or wired connection therefore bootstraps the first kernel/firmware update; native Wi-Fi must pass after reboot before the desktop packages are installed.
+
 ### Kernel, microcode, and firmware
 
 - Arch uses the standard `linux` kernel.

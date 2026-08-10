@@ -2,6 +2,8 @@
 
 Run this gate from the exact ISO that will perform the installation. Do not erase the disk merely because the ISO boots.
 
+For Fedora Server 44 on this laptop, use the more specific [Fedora Wi-Fi bootstrap](fedora-wifi-bootstrap.md) alongside this general checklist.
+
 ## Known hardware
 
 The current laptop has:

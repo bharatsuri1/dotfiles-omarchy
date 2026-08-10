@@ -4,7 +4,7 @@ This path starts with the official Fedora Server DVD ISO, installs a non-graphic
 
 ## 1. Accept the installation media
 
-Complete [the hardware and network preflight](hardware-preflight.md). Prior Fedora installers failed Wi-Fi on this laptop, so a successful test of the exact ISO—or a tested tether/wired fallback—is mandatory.
+Complete the dedicated [Fedora 44 Wi-Fi bootstrap](fedora-wifi-bootstrap.md), including its tested tether/wired fallback. The release DVD may predate this laptop's exact Intel firmware, so use the full DVD, not the network-install ISO. Do not continue to niri or DMS until native Wi-Fi passes after the first fully updated reboot.
 
 ## 2. Install the Fedora base
 
@@ -22,7 +22,7 @@ In the Fedora installer:
 
 If the installer cannot produce an automatic Btrfs layout, stop rather than silently accepting LVM/XFS. Use its guided custom-storage screen to create the standard Btrfs layout, then recheck the final summary.
 
-Reboot into the TTY and verify:
+Reboot into the TTY, complete steps 5 and 6 of the Wi-Fi bootstrap, and verify:
 
 ```bash
 findmnt -no FSTYPE /
