@@ -28,20 +28,20 @@ No setup commands should imply an undecided component. Decisions are tracked in 
 
 Only components required to boot, connect, enter a graphical session, develop, update, and recover remain in scope:
 
-1. **Installation/bootstrap** — Arch, Fedora Server, and Fedora Workstation installation paths.
-2. **Disk and boot** — filesystem, bootloader, and swap for a minimal v1.
-3. **Hardware foundation** — firmware, Intel microcode, graphics, Wi-Fi, and laptop input.
-4. **Networking** — persistent Wi-Fi/Ethernet manager and DNS.
-5. **Desktop session** — TTY launch, greeter, or display manager.
-6. **niri and DMS** — required packages, startup ownership, and minimum configuration.
-7. **Xwayland** — compatibility for non-Wayland development applications.
-8. **Audio** — PipeWire and WirePlumber.
-9. **Bluetooth** — BlueZ and DMS/GNOME control.
-10. **Portals and authentication** — file chooser, screen sharing, polkit, and Secret Service.
-11. **Laptop power** — suspend, lid behavior, brightness, and battery policy.
-12. **Development foundation** — compilers, build tools, language/runtime management, and containers.
-13. **Package-source policy** — native packages, Homebrew, Flatpak, and upstream binaries.
-14. **Dotfile deployment** — installation and update mechanism for this repository.
-15. **Updates and recovery** — safe upgrades, validation, logs, and rollback or reinstallation.
+1. **Installation/bootstrap** — selected: official ISO paths for Arch, Fedora Server, and Fedora Workstation; exact installer validation steps remain to be written.
+2. **Disk and boot** — selected: Btrfs, automatic whole-disk unencrypted partitioning, profile-specific bootloaders, and zram-only swap without hibernation.
+3. **Hardware foundation** — standard kernels, Intel microcode, firmware, Intel graphics, libinput, and keyd selected; installer Wi-Fi compatibility and Wildcat Lake media acceleration are mandatory investigations.
+4. **Networking** — selected: NetworkManager as the single persistent network owner; ISO driver/firmware preflight remains.
+5. **Desktop session** — selected: explicit `niri-session` from TTY for custom directions and GDM/GNOME for Workstation; no custom greeter or shell autostart.
+6. **niri and DMS** — selected and detailed: packaged DMS core only, accepting required dependencies while excluding visualizer, generated themes, indexed search, calendar, sound feedback, plugins, and other optional providers.
+7. **Xwayland** — selected: niri-managed on-demand `xwayland-satellite`, with native Wayland preferred and no Xorg session.
+8. **Audio** — selected: PipeWire, WirePlumber, PulseAudio compatibility, and ALSA integration; DMS/GNOME owns the UI.
+9. **Bluetooth** — selected: BlueZ backend, its CLI tools, DMS/GNOME UI, and PipeWire audio; no Blueman or OBEX.
+10. **Portals and authentication** — selected: niri portal set, GNOME Keyring/libsecret, and polkit with one profile-owned agent; TTY keyring-unlock integration requires validation.
+11. **Laptop power** — selected: retain distribution/systemd defaults, validate the basic hardware behavior, and defer custom policy, timers, and optimization.
+12. **Development foundation** — selected: native build toolchains, Mise for non-Python runtimes, uv for Python, rootless Podman, and explicit `podman compose` compatibility.
+13. **Package-source policy** — selected and mapped for v1: distribution repositories first, named project repositories and Flatpak/Homebrew only for recorded packages, Herdr as the direct-upstream exception, and no Arch AUR workflow.
+14. **Dotfile deployment** — selected: GNU Stow from a dedicated package subtree with collision preflight and no secrets/runtime state.
+15. **Updates and recovery** — manual multi-source updates plus TTY/ISO/chroot/reinstall recovery selected; Restic is the user-data backup mechanism with a prompted destination and manual v1 workflow.
 
 Optional productivity suites, media creation tools, printing, network-share extras, and other conveniences are deferred until the minimal development machine works.
