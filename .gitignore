@@ -22,3 +22,6 @@
 
 # Zsh plugins are installed from their upstream repositories during restore
 .config/zsh/plugins/
+
+# Reproducible installer build artifacts; scripts and checksums are tracked separately
+build/

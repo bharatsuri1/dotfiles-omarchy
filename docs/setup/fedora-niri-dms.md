@@ -1,10 +1,10 @@
 # Fedora Server + niri + DMS
 
-This path starts with the official Fedora Server DVD ISO, installs a non-graphical Btrfs base, and adds niri plus DMS from the upstream-maintained COPR.
+This path starts with the official Fedora Everything network ISO over Ethernet, installs a custom non-graphical Btrfs base, and adds niri plus DMS from the upstream-maintained COPR.
 
 ## 1. Accept the installation media
 
-Complete the dedicated [Fedora 44 Wi-Fi bootstrap](fedora-wifi-bootstrap.md), including its tested tether/wired fallback. The release DVD may predate this laptop's exact Intel firmware, so use the full DVD, not the network-install ISO. Do not continue to niri or DMS until native Wi-Fi passes after the first fully updated reboot.
+Complete the dedicated [Fedora 44 network and Wi-Fi bootstrap](fedora-wifi-bootstrap.md). Use tested Ethernet for the Everything network installer and select only the custom minimal/non-graphical environment. Do not continue to niri or DMS until native Wi-Fi passes after the first fully updated reboot.
 
 ## 2. Install the Fedora base
 
@@ -13,7 +13,7 @@ In the Fedora installer:
 - use the internal NVMe with automatic whole-disk allocation;
 - explicitly select an installer-generated Btrfs layout; verify `/` is Btrfs in the final storage summary;
 - do not enable LUKS;
-- use the minimal/non-graphical software environment, not GNOME;
+- choose the custom/minimal base environment and no graphical add-ons; review the package summary for GNOME, KDE, Xfce, or other desktop groups before accepting it;
 - enable NetworkManager networking;
 - enter hostname and username interactively and make the user an administrator;
 - use `en_US.UTF-8`, US keyboard, and `America/Los_Angeles`;

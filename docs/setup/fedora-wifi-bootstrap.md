@@ -1,29 +1,43 @@
-# Fedora 44 Wi-Fi bootstrap
+# Fedora 44 network and Wi-Fi bootstrap
 
 This is the first gate for the Fedora Server + niri + DMS installation on the current laptop. Do not install the desktop until native Wi-Fi works after a fully updated Fedora boot.
 
-## Why the fallback path is mandatory
+## Why Ethernet comes first
 
-The laptop uses Intel Wi-Fi PCI ID `8086:4d40` and working firmware named `iwlwifi-bz-b0-wh-b0-c102.ucode`. Fedora Server 44's release DVD predates that exact firmware addition. Current Fedora 44 updates do contain it, but the installer image may not.
+The laptop uses Intel Wi-Fi PCI ID `8086:4d40` and working firmware named `iwlwifi-bz-b0-wh-b0-c102.ucode`. Fedora 44's release installer predates that exact firmware addition. Current Fedora 44 repositories do contain it, but the boot image may not.
 
-Use the full Fedora Server DVD ISO, not the network-install ISO. The DVD can install the base without Internet access. Have USB phone tethering or a tested wired USB adapter available for the first update.
+Use the Fedora Everything network installer with tested Ethernet. Everything exposes Fedora's package environments without forcing a desktop, and its network source lets the target system receive current kernel and firmware packages during installation.
 
-## 1. Download and authenticate the DVD
+## 1. Download and authenticate Fedora Everything
 
-As of August 2026, the current release image is `Fedora-Server-dvd-x86_64-44-1.7.iso`. Download the ISO and its checksum from the [official Fedora Server page](https://fedoraproject.org/en/server/download/), then authenticate them in the download directory:
+As of August 2026, the current image is `Fedora-Everything-netinst-x86_64-44-1.7.iso`. Download the ISO and checksum from [Fedora's miscellaneous downloads](https://fedoraproject.org/everything/download/), then authenticate them in the download directory:
 
 ```bash
 curl -O https://fedoraproject.org/fedora.gpg
 gpgv --keyring ./fedora.gpg --output - \
-  Fedora-Server-44-1.7-x86_64-CHECKSUM \
+  Fedora-Everything-44-1.7-x86_64-CHECKSUM \
   | sha256sum -c --ignore-missing
 ```
 
-The ISO must report `OK`. Its Fedora-published SHA-256 is `85837793bfa36db6bc709b4cecd2ec116951b87d9c53c3d95eb2fac8dcf7cf1f`. Use Fedora Media Writer to write it to USB; selecting the wrong raw block device with `dd` can destroy another disk.
+The ISO must report `OK`. Its Fedora-published SHA-256 is `bd285201494dd0ba09b54d05ac707de1401668b8512a573edb5922dcf9d7067e`. Use Fedora Media Writer or the carefully verified raw-device procedure; selecting the wrong device destroys its contents.
 
-## 2. Test Wi-Fi from the exact installer
+## 2. Prove Ethernet from the exact installer
 
-Boot the USB and switch to a shell with Ctrl+Alt+F3 if the installer does not expose one. Record the kernel, adapter, driver, and firmware:
+Boot the USB and switch to a shell with Ctrl+Alt+F3. Confirm NetworkManager sees the Ethernet interface and prove the complete network path:
+
+```bash
+nmcli device status
+ip -brief link
+ip route
+getent hosts fedoraproject.org
+curl -I https://fedoraproject.org/
+```
+
+Do not begin an Everything installation unless routing, DNS, and HTTPS all work. Return to Anaconda with Ctrl+Alt+F1.
+
+## 3. Record installer Wi-Fi support
+
+Wi-Fi is not required during installation when Ethernet works, but record the release-image state before proceeding:
 
 ```bash
 uname -r
@@ -58,32 +72,23 @@ getent hosts fedoraproject.org
 curl -I https://fedoraproject.org/
 ```
 
-Native installer Wi-Fi passes only if all four work. If `8086:4d40` has no `Kernel driver in use`, the firmware file is absent, or the journal reports a firmware-load failure, stop troubleshooting the installer image and use the fallback path.
+Native installer Wi-Fi passes only if all four work. If it fails while Ethernet works, continue over Ethernet; do not add random firmware files to the installer environment.
 
-## 3. Prove the fallback before installation
+## 4. Select a custom minimal installation
 
-Enable USB tethering on the phone, attach it directly, and inspect the new interface:
+In Anaconda:
 
-```bash
-nmcli device status
-ip -brief link
-```
+- keep Ethernet connected and accept the official Fedora network source;
+- choose the custom/minimal base environment;
+- select no GNOME, KDE, Xfce, graphical administration, productivity, office, or multimedia add-on groups;
+- follow the Btrfs, account, locale, and boot choices in [Fedora Server + niri + DMS](fedora-niri-dms.md);
+- inspect the final software and storage summaries before starting installation.
 
-NetworkManager normally connects it automatically. If the new Ethernet-like interface is disconnected, replace the example name with the one shown by `nmcli`:
-
-```bash
-sudo nmcli device connect enp0s20f0u1
-```
-
-Repeat the route, DNS, and HTTPS tests. Do not erase the disk until either native Wi-Fi or this fallback has passed.
-
-## 4. Install the offline-capable base
-
-Return to the installer with Ctrl+Alt+F1. Continue with the storage and account choices in [Fedora Server + niri + DMS](fedora-niri-dms.md). It is safe to install from the DVD while Wi-Fi is unavailable; do not enable an online package source during this first pass.
+Package count alone is not the acceptance test. The selected environment must be non-graphical and must not include a desktop group.
 
 ## 5. Update firmware and kernel on first boot
 
-After booting the installed TTY, connect the proven tether or wired fallback. Verify HTTPS, then update the base before installing niri or DMS:
+After booting the installed TTY, keep Ethernet connected. Verify HTTPS, then update the base before installing niri or DMS:
 
 ```bash
 curl -I https://fedoraproject.org/
@@ -101,7 +106,7 @@ Do not test only by reloading `iwlwifi`: boot the newly installed kernel and fir
 
 ## 6. Accept native Wi-Fi after reboot
 
-Disconnect the tether, then run:
+Disconnect Ethernet, then run:
 
 ```bash
 uname -r
@@ -141,6 +146,6 @@ rfkill list
 
 ## References
 
-- [Fedora Server 44 download and verification](https://fedoraproject.org/en/server/download/)
+- [Fedora Everything 44 download and verification](https://fedoraproject.org/everything/download/)
 - [Fedora 44 `iwlwifi-mld-firmware`](https://packages.fedoraproject.org/pkgs/linux-firmware/iwlwifi-mld-firmware/fedora-44.html)
 - [Upstream addition of the required Bz/Wh firmware](https://kernel.googlesource.com/pub/scm/linux/kernel/git/iwlwifi/linux-firmware/+/b21b48725314dcca554a8b23bc9c6004cece1042)

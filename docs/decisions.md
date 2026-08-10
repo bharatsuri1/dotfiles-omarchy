@@ -26,10 +26,10 @@ Fedora Workstation remains the simple complete-desktop option and does not insta
 All directions use official ISO installation media:
 
 - Arch uses the official Arch ISO, `iwctl` when Wi-Fi setup is needed, guided `archinstall`, and a reboot into a minimal working TTY;
-- Fedora Server uses the official Server DVD ISO and its installer, then reboots into a non-graphical base;
+- the selected Fedora custom path uses the official Everything network ISO over Ethernet, chooses a custom minimal/non-graphical environment, then reboots into a TTY base;
 - Fedora Workstation uses the official Workstation Live ISO and its graphical installer, then reboots into GNOME.
 
-The Fedora Server Network Install ISO is not the selected path. Niri, DMS, development tools, and personal applications are installed only after the base operating system has booted successfully.
+The Fedora Server installer is not the selected custom path. Niri, DMS, development tools, and personal applications are installed only after the Everything-based minimal operating system has booted successfully.
 
 ### Installation identity and localization
 
@@ -84,7 +84,7 @@ Before accepting any Arch or Fedora ISO for installation:
 
 The current installation proves a working reference point, not a universal minimum: Arch kernel `7.1.4-arch1-1` with `linux-firmware-intel` `20260622-1` identifies this device as Intel Wi-Fi 7 BE213 160 MHz and loads `iwlwifi-bz-b0-wh-b0-c102.ucode` API 102. Upstream history does not provide enough evidence to claim an older safe minimum for this exact pre-release-generation PCI ID. Therefore the live-ISO functional preflight remains the acceptance test. Prior Fedora and other installer ISOs failed to provide working Wi-Fi on this laptop.
 
-For the August 2026 Fedora installation, use the full Fedora Server 44 DVD rather than its network-install ISO. The 44 release image predates the upstream addition of the exact Bz/Wh `c102` firmware, while current Fedora 44 updates carry newer `iwlwifi-mld-firmware`. A tested USB-tether or wired connection therefore bootstraps the first kernel/firmware update; native Wi-Fi must pass after reboot before the desktop packages are installed.
+For the August 2026 Fedora installation, use the Fedora Everything 44 x86_64 network installer over tested Ethernet. Select a custom minimal/non-graphical environment so no GNOME or KDE desktop is introduced. The release image predates the upstream addition of the exact Bz/Wh `c102` firmware, while the current Fedora 44 repositories carry newer `iwlwifi-mld-firmware`; the network installation should therefore build the target from updated packages. Native Wi-Fi must pass after the first updated boot before the desktop packages are installed.
 
 ### Kernel, microcode, and firmware
 

@@ -8,7 +8,7 @@ These guides turn the v1 decisions into three installation paths for the current
 
 All three use [the same hardware acceptance gate](hardware-preflight.md). The two Arch guides share the same ISO and `archinstall` base. All profiles finish with the [shared user/development environment](shared-user-environment.md).
 
-For the selected Fedora path, begin with the command-focused [Fedora 44 Wi-Fi bootstrap](fedora-wifi-bootstrap.md). It covers the current Intel adapter, the release-ISO firmware gap, offline installation, first-update tethering, and the final native-Wi-Fi acceptance test.
+For the selected Fedora path, begin with the command-focused [Fedora 44 network and Wi-Fi bootstrap](fedora-wifi-bootstrap.md). It covers the Everything network installer over Ethernet and the final native-Wi-Fi acceptance test. To learn and produce an updated installer runtime for this laptop, follow the [Lorax ISO build](build-fedora-lorax-iso.md).
 
 These are reviewed command guides, not unattended installers. Read the whole selected guide before changing the disk. Commands that inspect state are intentional gates: stop when actual output does not match the stated expectation.
 

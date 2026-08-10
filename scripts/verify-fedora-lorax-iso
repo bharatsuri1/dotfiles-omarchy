@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+  printf 'Usage: %s /path/to/boot.iso\n' "$0" >&2
+  exit 2
+fi
+
+iso=$(realpath -- "$1")
+test -s "${iso}"
+
+inspect_dir=$(mktemp -d)
+trap 'rm -rf -- "${inspect_dir}"' EXIT
+
+sha256sum "${iso}"
+file "${iso}"
+
+bsdtar -xf "${iso}" -C "${inspect_dir}" \
+  images/pxeboot/vmlinuz \
+  images/pxeboot/initrd.img \
+  images/install.img
+
+printf '\nKernel embedded in the ISO:\n'
+file "${inspect_dir}/images/pxeboot/vmlinuz"
+
+printf '\nInstaller payload:\n'
+file "${inspect_dir}/images/pxeboot/initrd.img"
+file "${inspect_dir}/images/install.img"
+
+printf '\nAdjacent Lorax tree metadata:\n'
+treeinfo=$(dirname -- "$(dirname -- "${iso}")")/.treeinfo
+if [[ -f "${treeinfo}" ]]; then
+  cat "${treeinfo}"
+else
+  printf 'No adjacent .treeinfo found at %s\n' "${treeinfo}"
+fi
+
+printf '\nRequired firmware in final install.img:\n'
+if command -v unsquashfs >/dev/null; then
+  unsquashfs -ll "${inspect_dir}/images/install.img" \
+    | grep 'iwlwifi-bz-b0-wh-b0-c102'
+else
+  printf 'Install squashfs-tools or inspect inside the Fedora build container.\n'
+fi
+
+printf '\nRequired live-hardware proof after boot:\n'
+printf '%s\n' \
+  '  uname -r' \
+  '  lspci -nnk -d 8086:4d40' \
+  "  find /usr/lib/firmware -type f -name '*bz-b0-wh-b0-c102*' -print" \
+  "  journalctl -b -k --no-pager | grep -Ei 'iwlwifi|firmware'"

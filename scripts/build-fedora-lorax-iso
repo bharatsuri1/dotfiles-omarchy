@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+build_root=${BUILD_ROOT:-"${repo_root}/build/fedora-44-lorax"}
+container_engine=${CONTAINER_ENGINE:-docker}
+host_uid=${SUDO_UID:-$(id -u)}
+host_gid=${SUDO_GID:-$(id -g)}
+
+release_repo=https://download.fedoraproject.org/pub/fedora/linux/releases/44/Everything/x86_64/os/
+updates_repo=https://download.fedoraproject.org/pub/fedora/linux/updates/44/Everything/x86_64/
+
+command -v "${container_engine}" >/dev/null
+mkdir -p "${build_root}"
+
+if [[ ${EUID} -ne 0 ]]; then
+  printf 'Run this script through sudo so it can access Docker and create loop-device nodes.\n' >&2
+  exit 1
+fi
+
+# Lorax creates filesystem images through loop devices. Some Arch hosts load the
+# loop module but do not populate its devtmpfs nodes until explicitly requested.
+if [[ ! -e /dev/loop-control && -r /sys/class/misc/loop-control/dev ]]; then
+  read -r loop_control_numbers </sys/class/misc/loop-control/dev
+  mknod -m 0660 /dev/loop-control c \
+    "${loop_control_numbers%:*}" "${loop_control_numbers#*:}"
+fi
+
+shopt -s nullglob
+for loop_sysdev in /sys/class/block/loop*/dev; do
+  loop_name=${loop_sysdev%/dev}
+  loop_name=${loop_name##*/}
+  if [[ ! -e "/dev/${loop_name}" ]]; then
+    read -r loop_numbers <"${loop_sysdev}"
+    mknod -m 0660 "/dev/${loop_name}" b \
+      "${loop_numbers%:*}" "${loop_numbers#*:}"
+  fi
+done
+shopt -u nullglob
+
+losetup -f >/dev/null
+
+if [[ -d "${build_root}/results" ]]; then
+  archive="${build_root}/results.$(date -u +%Y%m%dT%H%M%SZ)"
+  mv -- "${build_root}/results" "${archive}"
+  printf 'Preserved previous result as %s\n' "${archive}"
+fi
+
+"${container_engine}" run --rm --privileged \
+  --security-opt label=disable \
+  --volume "${build_root}:/work:rw" \
+  --workdir /work \
+  docker.io/library/fedora:44 \
+  bash -euxo pipefail -c "
+    dnf -y install lorax file findutils
+    {
+      printf 'Build time (UTC): '
+      date -u +%Y-%m-%dT%H:%M:%SZ
+      lorax --version
+      dnf repolist
+      printf '\\nLatest stable Fedora 44 build inputs:\\n'
+      dnf repoquery --available --arch x86_64 --latest-limit 1 \\
+        --queryformat '%{name}-%{evr}.%{arch}' \\
+        kernel kernel-core kernel-modules kernel-modules-core
+      dnf repoquery --available --arch noarch --latest-limit 1 \\
+        --queryformat '%{name}-%{evr}.%{arch}' \\
+        iwlwifi-mld-firmware
+    } | tee /work/build-inputs.txt
+    lorax \\
+      --product Fedora \\
+      --version 44 \\
+      --release 44 \\
+      --variant Everything \\
+      --buildarch x86_64 \\
+      --volid FEDORA-44-LATEST \\
+      --isfinal \\
+      --nomacboot \\
+      --source '${release_repo}' \\
+      --source '${updates_repo}' \\
+      /work/results
+    unsquashfs -ll /work/results/images/install.img \\
+      | grep 'iwlwifi-bz-b0-wh-b0-c102' \\
+      | tee /work/firmware-check.txt
+    test -s /work/firmware-check.txt
+    chown -R '${host_uid}:${host_gid}' /work/results
+    chown '${host_uid}:${host_gid}' /work/build-inputs.txt /work/firmware-check.txt
+  "
+
+iso="${build_root}/results/images/boot.iso"
+test -s "${iso}"
+
+sha256sum "${iso}" | tee "${iso}.sha256"
+file "${iso}"
+
+printf '\nBuilt installer: %s\n' "${iso}"
+printf 'Recorded resolved inputs: %s\n' "${build_root}/build-inputs.txt"
+printf 'Recorded firmware payload: %s\n' "${build_root}/firmware-check.txt"
+printf 'Next: run scripts/verify-fedora-lorax-iso %q\n' "${iso}"
