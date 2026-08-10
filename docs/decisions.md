@@ -82,7 +82,7 @@ Before accepting any Arch or Fedora ISO for installation:
 - prepare a tested USB-tethering or wired-network fallback;
 - do not begin destructive installation if the live environment cannot get online.
 
-Research still required: identify the minimum kernel and Intel firmware versions supporting `8086:4d40`, then compare them with the exact ISO contents. Prior Fedora and other installer ISOs failed to provide working Wi-Fi on this laptop.
+The current installation proves a working reference point, not a universal minimum: Arch kernel `7.1.4-arch1-1` with `linux-firmware-intel` `20260622-1` identifies this device as Intel Wi-Fi 7 BE213 160 MHz and loads `iwlwifi-bz-b0-wh-b0-c102.ucode` API 102. Upstream history does not provide enough evidence to claim an older safe minimum for this exact pre-release-generation PCI ID. Therefore the live-ISO functional preflight remains the acceptance test. Prior Fedora and other installer ISOs failed to provide working Wi-Fi on this laptop.
 
 ### Kernel, microcode, and firmware
 
@@ -99,9 +99,10 @@ Research still required: identify the minimum kernel and Intel firmware versions
 - Do not install the legacy `xf86-video-intel` Xorg driver.
 - Do not add manual graphics kernel parameters without a reproduced hardware problem.
 - Do not install 32-bit graphics libraries unless a later selected application requires them.
-- Hardware video acceleration is an open Wildcat Lake validation item: determine whether `intel-media-driver`, `libvpl`, `vpl-gpu-rt`, or a subset is correct, then verify with actual decode/encode tests.
+- Install the Intel VA-API media driver, oneVPL dispatcher/runtime, and VA inspection utility for Wildcat/Panther Lake: Arch uses `vpl-gpu-rt` (which pulls the Intel media driver) plus `libva-utils`; Fedora uses `intel-vpl-gpu-rt`, `libva-intel-media-driver`, and `libva-utils`.
+- Verify the selected stack with `vainfo` and real browser/video decode after installation; package presence alone does not prove hardware acceleration.
 
-Omarchy currently follows the same `xe` + Mesa + `vulkan-intel` baseline on this laptop. Its Intel media-acceleration name detection does not match `Wildcat Lake [Intel Graphics]`, so its intended media packages were not installed and are not copied blindly.
+The current machine proves that kernel `7.1.4-arch1-1` plus `linux-firmware-intel` `20260622-1` loads the Wildcat/Panther Lake DMC, GuC, HuC, and GSC firmware under `xe`. Omarchy's Intel media-acceleration name detection did not match `Wildcat Lake [Intel Graphics]`, so its missing media packages are corrected explicitly rather than copied blindly.
 
 ### Input and keyboard remapping
 
@@ -109,6 +110,7 @@ Omarchy currently follows the same `xe` + Mesa + `vulkan-intel` baseline on this
 - Let niri or GNOME own touchpad, mouse, natural-scrolling, tap-to-click, and gesture preferences.
 - Do not install Xorg input drivers or a separate gesture daemon.
 - Use keyd as the only low-level keyboard-remapping daemon.
+- Arch installs keyd from Extra. Fedora enables the community `alternateved/keyd` COPR linked by keyd upstream, then installs it through DNF; inspect the repository and transaction before accepting it.
 - Required keyd behavior includes Caps Lock as Escape when tapped and a Hyper modifier when held.
 - Keep physical-key transformation in keyd and application/window-manager actions in niri, DMS, GNOME, tmux, editors, or applications; do not implement the same transformation in multiple layers.
 - Preserve a TTY/recovery path and validate the keyd configuration before enabling it persistently so a bad mapping cannot prevent login.
@@ -430,6 +432,10 @@ Package-source priority is:
 Each package has exactly one owner and update path. Do not install the same application through native packages, Flatpak, Homebrew, AUR, and upstream simultaneously. For every exception, record why the native package is unavailable or unsuitable, how authenticity is checked, how updates happen, and how it is removed.
 
 Homebrew uses its official installer and supported Linux prefix, `/home/linuxbrew/.linuxbrew`. It remains approved only for explicitly named formulae and is not a general replacement for pacman or DNF. Dashlane CLI is assigned to Dashlane's official Homebrew tap across distributions. Zen is assigned to its official Flathub package. Fedora installs Microsoft VS Code from Microsoft's official RPM repository through DNF; Arch skips VS Code in v1 rather than using AUR or a manual package workflow. Herdr is a deliberate direct-upstream exception installed at `~/.local/bin/herdr`. uv is distribution-native on both Arch and Fedora. Fedora niri and DMS use the upstream-maintained `avengemedia/dms` COPR under DNF ownership; the universal installer is not used.
+
+Arch installs lazygit from Extra through pacman. Fedora's official repositories do not package lazygit, so Fedora installs the Linux bottle from the official Homebrew formula; Homebrew is its sole owner there. Git and GitHub CLI remain distribution-native on both systems.
+
+JetBrainsMono Nerd Font is native on Arch as `ttf-jetbrains-mono-nerd`. Fedora's native JetBrains Mono package is not Nerd-patched, so Fedora installs the pinned upstream Nerd Fonts `JetBrainsMono.tar.xz` release into the user's font directory after verifying the project-published SHA-256 checksum. This is a documented direct-upstream exception.
 
 `~/.local/bin` is an explicit allowlist, not a general unmanaged installation prefix. On the current system it contains one direct upstream binary, `herdr`, plus shell launchers named `codex`, `copilot`, `gemini`, `ghui`, `opencode`, `pi`, and `playwright-cli`. Those launchers are not self-contained upstream binaries: they select `node@latest` through Mise and resolve their npm packages through `npx`; they also contain Omarchy-specific fallback calls for Bun installation. Reevaluate and reproduce them only if the corresponding tools are selected later. Do not copy them into the minimal setup merely because they exist on the current machine.
 
