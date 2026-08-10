@@ -15,7 +15,7 @@ Then apply every relevant component check below.
 | Whitespace | `git diff --check` and `git diff --cached --check` | No errors. Preserve harmless source formatting only deliberately. |
 | Secrets | `pre-commit run --all-files`; `gitleaks dir . --no-banner --redact` | Both pass; scan includes untracked files. |
 | Bash | `bash -n .bashrc .bash_profile` | Exit 0. |
-| Zsh | `zsh -n .zshenv .config/zsh/.zshrc` | Exit 0. Test a clean login environment for PATH initialization changes. |
+| Zsh | `zsh -n .zshenv .config/zsh/.zshenv .config/zsh/.zshrc` | Exit 0. Test a clean login environment for PATH initialization changes. |
 | Tmux | Start a detached session with an isolated socket and repository config | Session starts and queried options match intent; kill the test server. |
 | Hyprland | `hyprctl reload`; `hyprctl configerrors` | Reload says `ok`; configerrors is empty. |
 | systemd unit | `systemd-analyze verify <unit>` | Exit 0 and no diagnostics. |

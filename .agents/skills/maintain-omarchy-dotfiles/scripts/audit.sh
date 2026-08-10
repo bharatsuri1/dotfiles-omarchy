@@ -21,7 +21,7 @@ else
 fi
 
 bash -n .bashrc .bash_profile && pass 'Bash syntax' || fail 'Bash syntax'
-zsh -n .zshenv .config/zsh/.zshrc && pass 'Zsh syntax' || fail 'Zsh syntax'
+zsh -n .zshenv .config/zsh/.zshenv .config/zsh/.zshrc && pass 'Zsh syntax' || fail 'Zsh syntax'
 systemd-analyze verify .config/systemd/user/voxtype.service >/dev/null 2>&1 && pass 'Voxtype unit' || fail 'Voxtype unit'
 
 tmp_dir=$(mktemp -d)

@@ -5,11 +5,12 @@ Personal changes layered on top of the default Omarchy setup.
 ## Included
 
 - **Bash** — aliases, Homebrew initialization, and Atuin Ctrl-R integration.
-- **Zsh** — primary interactive shell with completion, history, FZF, Atuin, Zoxide, Starship, autosuggestions, and syntax highlighting.
+- **Zsh** — primary shell with XDG-based environment defaults, completion, history, FZF, Atuin, Zoxide, Starship, autosuggestions, and syntax highlighting.
 - **Starship** — two-line prompt with the `` prompt character.
 - **Atuin** — local fuzzy history search; daemon disabled.
 - **Fcitx 5** — US keyboard input profile and notification settings.
 - **Herdr** — UI, theme, and notification preferences.
+- **Git** — portable defaults and public commit identity; authentication remains outside the repository.
 - **Hyprland** — customized main config, idle behavior, input, scrolling layout, and application bindings.
 - **Mise** — pinned Node.js runtime.
 - **Packages** — Pacman restore lists, installed-version snapshot, orphan report, and a Homebrew bundle.
@@ -28,6 +29,7 @@ cp .bash_profile .bashrc .zshenv ~/
 cp -r .config/atuin .config/environment.d .config/fcitx5 .config/herdr .config/hypr ~/.config/
 cp -r .config/mise .config/systemd .config/tmux .config/voxtype .config/zsh ~/.config/
 cp .config/starship.toml .config/mimeapps.list ~/.config/
+mkdir -p ~/.config/git && cp .config/git/config ~/.config/git/config
 ```
 
 Install the official and foreign packages separately:
@@ -39,7 +41,7 @@ brew bundle --file ./Brewfile
 mise install
 ```
 
-Install the Zsh plugins at the revisions used by this snapshot:
+The restored `~/.zshenv` sets `ZDOTDIR` and loads `~/.config/zsh/.zshenv`; keep both files together. Install the Zsh plugins at the revisions used by this snapshot:
 
 ```bash
 mkdir -p ~/.config/zsh/plugins
@@ -57,7 +59,7 @@ systemctl --user daemon-reload
 systemctl --user enable --now voxtype.service
 ```
 
-For Zen, copy `user.js`, `zen-keyboard-shortcuts.json`, `zen-themes.json`, and `chrome/zen-themes.css` into the active profile shown by `~/.config/zen/profiles.ini`, then install Vimium.
+For Zen, copy `user.js`, `zen-keyboard-shortcuts.json`, `zen-themes.json`, and `chrome/zen-themes.css` into the installation-selected profile shown by `~/.config/zen/profiles.ini`, then install Vimium.
 
 ## Installed additions
 

@@ -5,7 +5,7 @@ Use this map to decide ownership and validation scope. Inspect the filesystem fo
 | Component | Live source | Repository form | Ownership / notes |
 |---|---|---|---|
 | Bash | `~/.bashrc`, `~/.bash_profile` | Same paths | Portable shell setup; Omarchy defaults remain sourced from upstream. |
-| Zsh | `~/.zshenv`, `~/.config/zsh/.zshrc` | Same paths | Portable. Keep downloaded plugin repositories out; pin install revisions in restore docs. |
+| Zsh | `~/.zshenv`, `~/.config/zsh/.zshenv`, `~/.config/zsh/.zshrc` | Same paths | Portable. The home file bootstraps `ZDOTDIR` and sources the config environment file. Keep downloaded plugin repositories out; pin install revisions in restore docs. |
 | Starship | `~/.config/starship.toml` | Same path | Portable. |
 | Atuin | `~/.config/atuin/config.toml` | Same path | Config is portable; history databases and keys are state/sensitive. |
 | Hyprland | `~/.config/hypr/*.conf` | Same paths | Capture authored overrides. Stock files identical to Omarchy need not be tracked. |
