@@ -21,6 +21,7 @@ and privacy exclusions, is recorded in [the current host snapshot](docs/current-
 - **Hyprland** — customized main config, idle behavior, input, scrolling layout, and application bindings.
 - **Mise** — pinned Node.js runtime.
 - **Packages** — Pacman restore lists, installed-version snapshot, orphan report, and a Homebrew bundle.
+- **Portable assets** — selected wallpapers and the complete JetBrains Mono Nerd Font v3.5.0 archive with provenance and licensing notes.
 - **Tmux** — Omarchy defaults with Zsh as the default shell.
 - **XCompose/XDG directories** — identity compose sequences and portable home-directory roles.
 - **Voxtype** — voice-to-text daemon configuration and user service.

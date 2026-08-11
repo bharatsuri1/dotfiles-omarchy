@@ -92,19 +92,20 @@ Fedora's `bluez` package already supplies `bluetoothctl`. Do not add `bluez-tool
 
 ## 6. Install JetBrainsMono Nerd Font
 
-Fedora packages unpatched JetBrains Mono, not the selected Nerd Font. Install pinned Nerd Fonts v3.4.0 for this user:
+Fedora packages unpatched JetBrains Mono, not the selected Nerd Font. From the
+repository root, install the vendored Nerd Fonts v3.5.0 collection for this
+user:
 
 ```bash
-mkdir -p ~/.local/share/fonts/JetBrainsMonoNerd
-curl -fL -o /tmp/JetBrainsMono.tar.xz \
-  https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz
-echo 'ef552a3e638f25125c6ad4c51176a6adcdce295ab1d2ffacf0db060caf8c1582  /tmp/JetBrainsMono.tar.xz' | sha256sum --check
-tar -xJf /tmp/JetBrainsMono.tar.xz -C ~/.local/share/fonts/JetBrainsMonoNerd
+install -d ~/.local/share/fonts/JetBrainsMonoNerd
+find assets/fonts/JetBrainsMono -maxdepth 1 -type f -name '*.ttf' \
+  -exec install -m 0644 {} ~/.local/share/fonts/JetBrainsMonoNerd/ \;
 fc-cache -f
 fc-match 'JetBrainsMono Nerd Font'
 ```
 
-The checksum is from the project's v3.4.0 `SHA-256.txt` release asset.
+The vendored archive retains the Nerd Fonts release README and SIL Open Font
+License in `assets/fonts/JetBrainsMono`.
 
 ## 7. Generate and attach DMS
 
