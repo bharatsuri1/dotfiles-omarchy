@@ -64,16 +64,20 @@ nvim
 
 The first run installs plugins. Later, move reviewed text configuration into the Stow package; never commit plugin caches or authentication state.
 
-## 5. Add Flathub and Zen Browser
+## 5. Add Flathub, Zen Browser, and LocalSend
 
 ```bash
 flatpak remote-add --if-not-exists flathub \
   https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub app.zen_browser.zen
+flatpak install flathub \
+  app.zen_browser.zen \
+  org.localsend.localsend_app
 xdg-settings set default-web-browser app.zen_browser.zen.desktop
 ```
 
 Validate downloads, file chooser, external links, audio/video, and PipeWire screen sharing. Do not install a second Zen package.
+
+Open LocalSend on this machine and another device on the same trusted network. Verify that each device discovers the other, send and receive one test file, and confirm the received file appears in Downloads. If discovery or transfer fails while a firewall is active, diagnose TCP and UDP port `53317` and permit that traffic only on the trusted LAN using the selected firewall's native policy. Do not install LocalSend from another source alongside the Flatpak.
 
 ## 6. Install Homebrew and Dashlane CLI
 

@@ -417,9 +417,10 @@ These are defaults, not bootstrap dependencies:
 - mpv is the default local video and audio-file player.
 - imv is the default image viewer.
 - Evince is the PDF and read-only document viewer.
+- LocalSend is the cross-platform local-network file-transfer application.
 - No office suite is installed by default.
 
-Nautilus phone access, Samba shares, video thumbnails, GNOME Disks, LocalSend/transcoding actions, and Dropbox integration are optional modules, not core requirements.
+Nautilus phone access, Samba shares, video thumbnails, GNOME Disks, transcoding actions, and Dropbox integration are optional modules, not core requirements.
 
 ## Package policy recorded so far
 
@@ -433,7 +434,7 @@ Package-source priority is:
 
 Each package has exactly one owner and update path. Do not install the same application through native packages, Flatpak, Homebrew, AUR, and upstream simultaneously. For every exception, record why the native package is unavailable or unsuitable, how authenticity is checked, how updates happen, and how it is removed.
 
-Homebrew uses its official installer and supported Linux prefix, `/home/linuxbrew/.linuxbrew`. It remains approved only for explicitly named formulae and is not a general replacement for pacman or DNF. Dashlane CLI is assigned to Dashlane's official Homebrew tap across distributions. Zen is assigned to its official Flathub package. Fedora installs Microsoft VS Code from Microsoft's official RPM repository through DNF; Arch skips VS Code in v1 rather than using AUR or a manual package workflow. Herdr is a deliberate direct-upstream exception installed at `~/.local/bin/herdr`. uv is distribution-native on both Arch and Fedora. Fedora niri and DMS use the upstream-maintained `avengemedia/dms` COPR under DNF ownership; the universal installer is not used.
+Homebrew uses its official installer and supported Linux prefix, `/home/linuxbrew/.linuxbrew`. It remains approved only for explicitly named formulae and is not a general replacement for pacman or DNF. Dashlane CLI is assigned to Dashlane's official Homebrew tap across distributions. Zen is assigned to its official Flathub package. LocalSend is assigned to its official Flathub package, `org.localsend.localsend_app`, across Arch and Fedora so both distributions use the project's recommended package-manager installation and one update path. Do not also install LocalSend through AUR, Snap, AppImage, a tarball, or a native package; update it with `flatpak update` and remove it with `flatpak uninstall org.localsend.localsend_app`. Fedora installs Microsoft VS Code from Microsoft's official RPM repository through DNF; Arch skips VS Code in v1 rather than using AUR or a manual package workflow. Herdr is a deliberate direct-upstream exception installed at `~/.local/bin/herdr`. uv is distribution-native on both Arch and Fedora. Fedora niri and DMS use the upstream-maintained `avengemedia/dms` COPR under DNF ownership; the universal installer is not used.
 
 Arch installs lazygit from Extra through pacman. Fedora's official repositories do not package lazygit, so Fedora installs the Linux bottle from the official Homebrew formula; Homebrew is its sole owner there. Git and GitHub CLI remain distribution-native on both systems.
 
