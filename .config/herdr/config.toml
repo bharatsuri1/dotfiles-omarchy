@@ -1,7 +1,6 @@
 onboarding = false
-
 [theme]
-name = "catppuccin"
+name = "vesper"
 auto_switch = false
 
 [ui.sound]
@@ -12,3 +11,7 @@ delivery = "herdr"
 
 [ui]
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
+
+[session]
+resume_agents_on_restore = false
