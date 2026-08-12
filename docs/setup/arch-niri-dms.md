@@ -103,4 +103,4 @@ Complete [the shared user and development setup](shared-user-environment.md).
 - explicit TTY launch and logout work;
 - systemd starts and stops DMS with niri;
 - exactly one shell owns overlapping desktop functions;
-- Zen screen sharing/file chooser, Xwayland fallback, audio, Bluetooth, Wi-Fi, polkit, Secret Service, suspend/resume, brightness, and media acceleration pass their smoke tests.
+- Chromium screen sharing/file chooser and app mode, Xwayland fallback, audio, Bluetooth, Wi-Fi, polkit, Secret Service, suspend/resume, brightness, and media acceleration pass their smoke tests.

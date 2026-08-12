@@ -8,7 +8,7 @@ Arch:
 
 ```bash
 sudo pacman -S --needed \
-  base-devel git github-cli lazygit neovim \
+  base-devel git github-cli lazygit neovim chromium \
   zsh tmux starship atuin zoxide bat btop fzf ripgrep fd eza \
   mise uv podman podman-compose stow restic curl wget unzip
 ```
@@ -18,8 +18,8 @@ Fedora:
 ```bash
 sudo dnf group install development-tools
 sudo dnf install \
-  git gh neovim \
-  zsh tmux starship atuin zoxide bat btop fzf ripgrep fd-find eza \
+  git gh neovim chromium \
+  zsh tmux atuin zoxide bat btop fzf ripgrep fd-find eza \
   mise uv podman podman-compose stow restic curl wget unzip
 ```
 
@@ -64,18 +64,25 @@ nvim
 
 The first run installs plugins. Later, move reviewed text configuration into the Stow package; never commit plugin caches or authentication state.
 
-## 5. Add Flathub, Zen Browser, and LocalSend
+## 5. Add Flathub and LocalSend
 
 ```bash
 flatpak remote-add --if-not-exists flathub \
   https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub \
-  app.zen_browser.zen \
-  org.localsend.localsend_app
-xdg-settings set default-web-browser app.zen_browser.zen.desktop
+flatpak install flathub org.localsend.localsend_app
 ```
 
-Validate downloads, file chooser, external links, audio/video, and PipeWire screen sharing. Do not install a second Zen package.
+Set the distribution-native Chromium package as the default browser:
+
+```bash
+# Arch
+xdg-settings set default-web-browser chromium.desktop
+
+# Fedora
+xdg-settings set default-web-browser chromium-browser.desktop
+```
+
+Validate downloads, file chooser, external links, audio/video, PipeWire screen sharing, and a test app-mode window launched with `chromium --app=URL` on Arch or `chromium-browser --app=URL` on Fedora. Do not install Chromium from a second source.
 
 Open LocalSend on this machine and another device on the same trusted network. Verify that each device discovers the other, send and receive one test file, and confirm the received file appears in Downloads. If discovery or transfer fails while a firewall is active, diagnose TCP and UDP port `53317` and permit that traffic only on the trusted LAN using the selected firewall's native policy. Do not install LocalSend from another source alongside the Flatpak.
 
@@ -98,14 +105,14 @@ brew install dashlane/tap/dashlane-cli
 dcli --version
 ```
 
-Fedora does not package lazygit in its official repositories, so install the selected Git TUI through Homebrew on Fedora only:
+Fedora does not package lazygit or Starship in its official repositories, so install the selected Git TUI and prompt through Homebrew on Fedora only:
 
 ```bash
 # Fedora only
-brew install lazygit
+brew install lazygit starship
 ```
 
-Arch keeps lazygit under pacman ownership. Homebrew owns only these explicitly approved formulae; do not use it to duplicate native packages.
+Arch keeps lazygit and Starship under pacman ownership. Homebrew owns only these explicitly approved formulae; do not use it to duplicate native packages.
 
 ## 7. Install Herdr from upstream
 
@@ -225,6 +232,6 @@ Review failures rather than hiding these commands in one opaque update script. R
 - [Mise installation](https://mise.jdx.dev/installing-mise.html)
 - [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux)
 - [lazygit Homebrew formula](https://formulae.brew.sh/formula/lazygit)
-- [Zen on Flathub](https://flathub.org/apps/app.zen_browser.zen)
+- [Fedora Chromium package](https://packages.fedoraproject.org/pkgs/chromium/chromium/)
 - [VS Code on Fedora](https://code.visualstudio.com/docs/setup/linux)
 - [LazyVim installation](https://www.lazyvim.org/installation)

@@ -226,7 +226,7 @@ Validation:
 - Do not install competing KDE, wlroots, or Hyprland portal backends in the niri profiles.
 - Fedora Workstation retains its normal GNOME portal configuration.
 - Let `niri-session` start the graphical target and D-Bus environment needed by portal services.
-- Validate Zen screen sharing, file-open/save dialogs, URI opening, screenshots, and any selected Flatpak application.
+- Validate Chromium screen sharing, file-open/save dialogs, URI opening, screenshots, and any selected Flatpak application.
 
 ## Secret Service and keyring
 
@@ -324,6 +324,7 @@ Classic X11 `dwm`, `dwl`, and standalone Quickshell profiles were considered and
 - Zsh is the interactive login shell on Arch and Fedora.
 - Bash and POSIX `sh` remain the languages for scripts and system tooling.
 - Starship is the shared prompt and must render correctly with JetBrainsMono Nerd Font.
+- Arch installs Starship from Extra; Fedora installs it through Homebrew because it is absent from Fedora's official repositories.
 - Zsh uses native `compinit` completion with an XDG-located cache.
 - Load pinned `zsh-autosuggestions` and `fast-syntax-highlighting` checkouts directly.
 - Do not install Oh My Zsh, another shell framework, a plugin manager, or another prompt theme.
@@ -342,13 +343,12 @@ Classic X11 `dwm`, `dwl`, and standalone Quickshell profiles were considered and
 
 ### Browser
 
-- Zen Browser is the primary browser and default HTTP/HTTPS handler.
-- Validate native Wayland rendering, PipeWire WebRTC sharing, portals, downloads, and password-manager integration under niri and GNOME.
+- Chromium is the primary browser and default HTTP/HTTPS handler.
+- Install Chromium from the distribution repository on Arch and Fedora so the native executable can launch dedicated web applications with `--app=URL` from desktop keybindings.
+- Use `chromium` on Arch and Fedora's `chromium-browser` executable; use each package's installed desktop ID for default-browser associations.
+- Validate native Wayland rendering, PipeWire WebRTC sharing, portals, downloads, password-manager integration, and app-mode windows under niri and GNOME.
 - Do not commit browser profiles or private state.
-- Install Zen from its official Flathub package across Arch and Fedora.
-- Use the Flatpak desktop ID for HTTP/HTTPS and default-browser associations.
-- Do not additionally install Zen from AUR, tarball, AppImage, or its home-directory installer.
-- Treat filesystem/device permissions as explicit Flatpak permissions and validate development downloads, portals, screen sharing, media, and external protocol handlers.
+- Do not additionally install Chromium through Flatpak, Snap, Homebrew, an upstream archive, or another repository.
 - Do not install a second browser without a demonstrated compatibility need.
 
 ### Editors
@@ -434,9 +434,9 @@ Package-source priority is:
 
 Each package has exactly one owner and update path. Do not install the same application through native packages, Flatpak, Homebrew, AUR, and upstream simultaneously. For every exception, record why the native package is unavailable or unsuitable, how authenticity is checked, how updates happen, and how it is removed.
 
-Homebrew uses its official installer and supported Linux prefix, `/home/linuxbrew/.linuxbrew`. It remains approved only for explicitly named formulae and is not a general replacement for pacman or DNF. Dashlane CLI is assigned to Dashlane's official Homebrew tap across distributions. Zen is assigned to its official Flathub package. LocalSend is assigned to its official Flathub package, `org.localsend.localsend_app`, across Arch and Fedora so both distributions use the project's recommended package-manager installation and one update path. Do not also install LocalSend through AUR, Snap, AppImage, a tarball, or a native package; update it with `flatpak update` and remove it with `flatpak uninstall org.localsend.localsend_app`. Fedora installs Microsoft VS Code from Microsoft's official RPM repository through DNF; Arch skips VS Code in v1 rather than using AUR or a manual package workflow. Herdr is a deliberate direct-upstream exception installed at `~/.local/bin/herdr`. uv is distribution-native on both Arch and Fedora. Fedora niri and DMS use the upstream-maintained `avengemedia/dms` COPR under DNF ownership; the universal installer is not used.
+Homebrew uses its official installer and supported Linux prefix, `/home/linuxbrew/.linuxbrew`. It remains approved only for explicitly named formulae and is not a general replacement for pacman or DNF. Dashlane CLI is assigned to Dashlane's official Homebrew tap across distributions. Chromium is distribution-native on Arch and Fedora. LocalSend is assigned to its official Flathub package, `org.localsend.localsend_app`, across Arch and Fedora so both distributions use the project's recommended package-manager installation and one update path. Do not also install LocalSend through AUR, Snap, AppImage, a tarball, or a native package; update it with `flatpak update` and remove it with `flatpak uninstall org.localsend.localsend_app`. Fedora installs Microsoft VS Code from Microsoft's official RPM repository through DNF; Arch skips VS Code in v1 rather than using AUR or a manual package workflow. Herdr is a deliberate direct-upstream exception installed at `~/.local/bin/herdr`. uv is distribution-native on both Arch and Fedora. Fedora niri and DMS use the upstream-maintained `avengemedia/dms` COPR under DNF ownership; the universal installer is not used.
 
-Arch installs lazygit from Extra through pacman. Fedora's official repositories do not package lazygit, so Fedora installs the Linux bottle from the official Homebrew formula; Homebrew is its sole owner there. Git and GitHub CLI remain distribution-native on both systems.
+Arch installs lazygit and Starship from Extra through pacman. Fedora's official repositories package neither, so Fedora installs their Linux bottles from the official Homebrew formulae; Homebrew is their sole owner there. Git and GitHub CLI remain distribution-native on both systems.
 
 JetBrainsMono Nerd Font is native on Arch as `ttf-jetbrains-mono-nerd`. Fedora's native JetBrains Mono package is not Nerd-patched, so Fedora installs the complete vendored Nerd Fonts v3.5.0 JetBrains Mono archive from `assets/fonts/JetBrainsMono` into the user's font directory. The archive retains its upstream README and SIL Open Font License, making this a reproducible documented exception without a second download during setup.
 
@@ -465,7 +465,7 @@ JetBrainsMono Nerd Font is native on Arch as `ttf-jetbrains-mono-nerd`. Fedora's
 ## Initial niri and DMS configuration
 
 - Begin with upstream niri and DMS defaults, then override only selected applications and confirmed usability requirements needed for the first working desktop.
-- Bind Alacritty, Zen Browser, Nautilus, and the DMS launcher.
+- Bind Alacritty, Chromium app-mode launchers, Nautilus, and the DMS launcher.
 - Use dynamic workspaces without fixed workspace-to-monitor assignments.
 - Rely on automatic monitor discovery and do not commit this laptop's output identifier in the baseline.
 - Keep Caps Lock tap/hold transformation entirely in keyd.

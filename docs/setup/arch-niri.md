@@ -126,14 +126,14 @@ If the login keyring is not unlocked by the TTY PAM login, stop before editing P
 
 ## 8. Continue with the shared environment
 
-Complete [the shared user and development setup](shared-user-environment.md). Zen and Nautilus can be launched from Alacritty in this shell-less profile.
+Complete [the shared user and development setup](shared-user-environment.md). Chromium and Nautilus can be launched from Alacritty in this shell-less profile.
 
 ## 9. Exit criteria
 
 - explicit `niri-session` starts and exits cleanly;
 - Super+T opens Alacritty;
 - native Wayland applications and one test X11 client work;
-- portal services start, and Zen can open a file chooser and request screen sharing;
+- portal services start, and Chromium can open a file chooser and request screen sharing;
 - Wi-Fi, Bluetooth, PipeWire audio, and suspend/resume work;
 - `brightnessctl get` reports the backlight and `brightnessctl set 5%-` then `brightnessctl set +5%` changes it; keybindings remain a later configuration task;
 - there is no DMS, bar, launcher, notification daemon, greeter, or idle daemon.

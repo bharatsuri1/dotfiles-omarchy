@@ -106,7 +106,7 @@ Install the profile's selected Intel media packages, then verify enumeration:
 vainfo
 ```
 
-Finally test hardware decoding in Zen or mpv while observing GPU activity. `vainfo` success alone does not prove the selected application is using hardware decode.
+Finally test hardware decoding in Chromium or mpv while observing GPU activity. `vainfo` success alone does not prove the selected application is using hardware decode.
 
 ## Research references
 
